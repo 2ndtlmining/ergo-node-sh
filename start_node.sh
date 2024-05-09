@@ -2,9 +2,15 @@
 
 # ┌───────────────────────────┐
 # │ Developed by ladopixel    │
-# │ Execute Ergo node v5.0.13 │
+# │ Execute latest Ergo node  │
 # └───────────────────────────┘
 
+# I define the latest release for Ergo
+get_latest_release() {
+    latest_release=$(curl --silent "https://api.github.com/repos/ergoplatform/ergo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+}
+
+get_latest_release
 
 # I define my key for the configuration file
 my_key="holaaa"
@@ -25,6 +31,7 @@ echo "   █"
 echo "  █"
 echo " █"
 echo " ███████ ErgoPlatform.org"
+echo "$latest_release"
 echo
 
 
@@ -56,8 +63,8 @@ fi
 
 
 # I download the node version
-url_ergo="https://github.com/ergoplatform/ergo/releases/download/v5.0.13"
-jar_file="ergo-5.0.13.jar"
+url_ergo="https://github.com/ergoplatform/ergo/releases/download/$latest_release"
+jar_file="ergo-${latest_release#v}.jar" # Remove 'v' from the start of the string
 if [ ! -f "$HOME/$directory/$jar_file" ]; then
     curl -LJO $url_ergo/$jar_file 
     mv "$HOME"/$jar_file "$HOME/$directory"
